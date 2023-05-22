@@ -15,11 +15,11 @@ function onSearch(event) {
 
   newsApiService.query = event.currentTarget.elements.query.value;
   newsApiService.resetPage();
-  newsApiService.fetchImages().then(hits => console.log(hits));
+  newsApiService.fetchImages().then(renderImages);
 }
 
 function onLoadMore(event) {
-  newsApiService.fetchImages().then(hits => console.log(hits));
+  newsApiService.fetchImages().then(renderImages);
 }
 
 function renderImages(hits) {
