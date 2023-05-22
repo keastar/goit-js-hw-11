@@ -1,0 +1,2 @@
+({searchForm:document.querySelector(".search-form"),imageContainer:document.querySelector(".gallery"),loadMoreBtn:document.querySelector(".load-more")}).searchForm.addEventListener("submit",(function(e){e.preventDefault();fetch("https://pixabay.com/api/?key=36301622-891f1a79dbe681583e2d486bc&q=yellow+flowers&image_type=photo&per_page=40&page=1").then((e=>e.json())).then(console.log)}));
+//# sourceMappingURL=index.54fb167c.js.map
