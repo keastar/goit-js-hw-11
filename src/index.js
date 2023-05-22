@@ -22,9 +22,7 @@ function onLoadMore(event) {
   newsApiService.fetchImages().then(hits => console.log(hits));
 }
 
-function renderImages(images) {
-  const cardsMarkup = images
-    .map(image => createImageCardMarkup(image))
-    .join('');
+function renderImages(hits) {
+  const cardsMarkup = hits.map(hit => createImageCardMarkup(hit)).join('');
   refs.imageContainer.insertAdjacentHTML('beforeend', cardsMarkup);
 }
