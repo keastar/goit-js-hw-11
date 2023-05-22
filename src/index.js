@@ -1,18 +1,30 @@
+import NewsApiService from './news-service';
+import { createImageCardMarkup } from './card-markup';
+
 const refs = {
   searchForm: document.querySelector('.search-form'),
   imageContainer: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.load-more'),
 };
-
+const newsApiService = new NewsApiService();
 refs.searchForm.addEventListener('submit', onSearch);
+refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
 function onSearch(event) {
   event.preventDefault();
 
-  const url =
-    'https://pixabay.com/api/?key=36301622-891f1a79dbe681583e2d486bc&q=yellow+flowers&image_type=photo&per_page=40&page=1';
+  newsApiService.query = event.currentTarget.elements.query.value;
+  newsApiService.resetPage();
+  newsApiService.fetchImages().then(hits => console.log(hits));
+}
 
-  fetch(url)
-    .then(r => r.json())
-    .then(console.log);
+function onLoadMore(event) {
+  newsApiService.fetchImages().then(hits => console.log(hits));
+}
+
+function renderImages(images) {
+  const cardsMarkup = images
+    .map(image => createImageCardMarkup(image))
+    .join('');
+  refs.imageContainer.insertAdjacentHTML('beforeend', cardsMarkup);
 }
