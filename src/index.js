@@ -2,6 +2,11 @@ import NewsApiService from './news-service';
 import { createImageCardMarkup } from './card-markup';
 // import LoadMoreBtn from './load-more-btn';
 import './css/styles.css';
+import { Notify } from 'notiflix';
+// Описан в документации
+import SimpleLightbox from 'simplelightbox';
+// Дополнительный импорт стилей
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
   searchForm: document.querySelector('#search-form'),
@@ -13,16 +18,18 @@ const newsApiService = new NewsApiService();
 
 refs.searchForm.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
-// console.log(refs.loadMoreBtn);
+refs.loadMoreBtn.classList.add('is-hidden');
+console.log(refs.loadMoreBtn);
 
 function onSearch(event) {
   event.preventDefault();
 
   newsApiService.query = event.currentTarget.elements.query.value;
+  refs.loadMoreBtn.classList.add('is-hidden');
   clearImagesContainer();
 
   if (newsApiService.query === '') {
-    return alert('Введите запрос');
+    return Notify.info('Введите запрос');
   }
 
   // loadMoreBtn.show();
@@ -38,6 +45,7 @@ function onLoadMore(event) {
 function renderImages(hits) {
   const cardsMarkup = hits.map(hit => createImageCardMarkup(hit)).join('');
   refs.imageContainer.insertAdjacentHTML('beforeend', cardsMarkup);
+  refs.loadMoreBtn.classList.remove('is-hidden');
 }
 
 function clearImagesContainer() {
