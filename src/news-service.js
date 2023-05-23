@@ -1,24 +1,33 @@
+const URL = `https://pixabay.com/api/`;
+const KEY_API = `36301622-891f1a79dbe681583e2d486bc`;
+
+//сервис отвечает за хранение запроса и номера группы
 export default class NewsApiService {
   constructor() {
     this.searchQuery = '';
     this.page = 1;
   }
 
+  //метод запрашивает по ссылке коллекцию изображений по определенным параметрам
   fetchImages() {
     console.log(this);
-    const url = `https://pixabay.com/api/?key=36301622-891f1a79dbe681583e2d486bc&q=${this.searchQuery}&image_type=photo&per_page=40&page=${this.page}`;
-
+    const url = `${URL}?key=${KEY_API}&q=${this.searchQuery}&image_type=photo&per_page=40&page=${this.page}`;
+    //парсит или возвращает найденные изображения
     return fetch(url)
       .then(r => r.json())
-      .then(image => {
+      .then(({ hits }) => {
         this.page += 1;
-        return image.hits;
+        return hits;
       });
   }
+
+  //сбрасывает номер странички
 
   resetPage() {
     this.page = 1;
   }
+
+  //контролирует термин запроса - получить или записать
 
   get query() {
     return this.searchQuery;

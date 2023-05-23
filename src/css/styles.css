@@ -1,3 +1,14 @@
+.search-form {
+    display: flex; 
+    width: auto;
+    height: 40px;
+    background-color: blueviolet;
+    align-items: center; 
+    justify-content: center; 
+}
+
+
+
 .gallery {
     display: grid;
     max-width: 1200px;
@@ -35,4 +46,41 @@ font-size: small;
 flex-direction: column;
 justify-content: center;
 align-items: center;
+}
+.buttons {
+    height: 25px;
+
+    background-color: rgb(255, 255, 255);
+    color: rgb(71, 71, 71);
+    border: none;
+    border-radius: 7px;
+}
+
+.buttons:hover {
+    background-color: rgb(231, 208, 253);
+}
+
+.button {
+    display: block;
+    height: 30px;
+    margin: 10px auto;
+
+    background-color: blueviolet;
+    color: aliceblue;
+    border: none;
+    border-radius: 7px;
+    
+}
+
+.button:hover {
+    background-color: rgb(192, 138, 243);
+}
+
+.is-hidden {
+    display: none;
+}
+
+.label {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12pt;
 }
