@@ -14,25 +14,20 @@ export default class NewsApiService {
     const url = `${URL}?key=${KEY_API}&q=${this.searchQuery}&image_type=photo&per_page=40&page=${this.page}`;
     //парсит или возвращает найденные изображения
     return fetch(url)
-      .then(r => r.json())
+      .then(response => response.json())
       .then(({ hits }) => {
         this.page += 1;
         return hits;
       });
   }
-
   //сбрасывает номер странички
-
   resetPage() {
     this.page = 1;
   }
-
   //контролирует термин запроса - получить или записать
-
   get query() {
     return this.searchQuery;
   }
-
   set query(newQuery) {
     this.searchQuery = newQuery;
   }
