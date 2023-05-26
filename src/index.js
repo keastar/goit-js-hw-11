@@ -15,21 +15,21 @@ const refs = {
 };
 
 const newsApiService = new NewsApiService();
-
+refs.loadMoreBtn.classList.add('is-hidden');
 refs.searchForm.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
-refs.loadMoreBtn.classList.add('is-hidden');
+
 console.log(refs.loadMoreBtn);
 
 function onSearch(event) {
   event.preventDefault();
 
   newsApiService.query = event.currentTarget.elements.query.value;
-  refs.loadMoreBtn.classList.add('is-hidden');
+  hideLoadMoreBtn();
   clearImagesContainer();
 
   if (newsApiService.query === '') {
-    return Notify.info('Введите запрос');
+    return Notify.info('Enter a request!');
   }
 
   // loadMoreBtn.show();
@@ -43,11 +43,34 @@ function onLoadMore(event) {
 }
 
 function renderImages(hits) {
-  const cardsMarkup = hits.map(hit => createImageCardMarkup(hit)).join('');
-  refs.imageContainer.insertAdjacentHTML('beforeend', cardsMarkup);
-  refs.loadMoreBtn.classList.remove('is-hidden');
+  if (hits.length !== 0) {
+    const cardsMarkup = hits.map(hit => createImageCardMarkup(hit)).join('');
+    refs.imageContainer.insertAdjacentHTML('beforeend', cardsMarkup);
+    showLoadMoreBtn();
+  } else {
+    showEndofImgs();
+    hideLoadMoreBtn();
+  }
 }
 
 function clearImagesContainer() {
   refs.imageContainer.innerHTML = '';
+}
+
+function hideLoadMoreBtn() {
+  refs.loadMoreBtn.classList.add('is-hidden');
+}
+
+function showLoadMoreBtn() {
+  refs.loadMoreBtn.classList.remove('is-hidden');
+}
+
+function showEndofImgs() {
+  Notify.info('Were sorry, but youve reached the end of search results.');
+}
+
+function noRes() {
+  Notify.failure(
+    'Sorry, there are no images matching your search query. Please try again.'
+  );
 }
