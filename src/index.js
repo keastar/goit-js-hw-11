@@ -48,8 +48,8 @@ function renderImages(hits) {
     refs.imageContainer.insertAdjacentHTML('beforeend', cardsMarkup);
     showLoadMoreBtn();
   } else {
-    showEndofImgs();
-    hideLoadMoreBtn();
+    noRes();
+    return;
   }
 }
 

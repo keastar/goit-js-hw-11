@@ -13,11 +13,12 @@ export default class NewsApiService {
   //метод запрашивает по ссылке коллекцию изображений по определенным параметрам
   fetchImages() {
     console.log(this);
-    const url = `${URL}?key=${KEY_API}&q=${this.searchQuery}&image_type=photo&per_page=40&page=${this.page}`;
+    const url = `${URL}?key=${KEY_API}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`;
     //парсит или возвращает найденные изображения
     return fetch(url)
       .then(response => response.json())
-      .then(({ hits }) => {
+      .then(({ hits, totalHits }) => {
+        console.log({ hits, totalHits });
         this.page += 1;
         return hits;
       });
