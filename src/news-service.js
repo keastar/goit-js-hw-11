@@ -1,4 +1,5 @@
 import { Notify } from 'notiflix';
+const axios = require('axios').default;
 
 const URL = `https://pixabay.com/api/`;
 const KEY_API = `36301622-891f1a79dbe681583e2d486bc`;

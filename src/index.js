@@ -7,6 +7,7 @@ import { Notify } from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 // Дополнительный импорт стилей
 import 'simplelightbox/dist/simple-lightbox.min.css';
+// const axios = require('axios').default;
 
 const refs = {
   searchForm: document.querySelector('#search-form'),
@@ -43,13 +44,17 @@ function onLoadMore(event) {
 }
 
 function renderImages(hits) {
-  if (hits.length !== 0) {
+  if (hits.length === 0) {
+    noRes();
+    hideLoadMoreBtn();
+  } else if (hits.length !== 0) {
     const cardsMarkup = hits.map(hit => createImageCardMarkup(hit)).join('');
     refs.imageContainer.insertAdjacentHTML('beforeend', cardsMarkup);
     showLoadMoreBtn();
-  } else {
-    noRes();
-    return;
+    if (hits.length > 1 && hits.length < 40) {
+      showEndofImgs();
+      hideLoadMoreBtn();
+    }
   }
 }
 
@@ -74,3 +79,5 @@ function noRes() {
     'Sorry, there are no images matching your search query. Please try again.'
   );
 }
+
+// export { hideLoadMoreBtn, noRes, showEndofImgs };
