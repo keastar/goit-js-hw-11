@@ -1,13 +1,11 @@
 import NewsApiService from './news-service';
 import { createImageCardMarkup } from './card-markup';
-// import LoadMoreBtn from './load-more-btn';
 import './css/styles.css';
 import { Notify } from 'notiflix';
 // Описан в документации
 import SimpleLightbox from 'simplelightbox';
 // Дополнительный импорт стилей
 import 'simplelightbox/dist/simple-lightbox.min.css';
-// const axios = require('axios').default;
 
 const refs = {
   searchForm: document.querySelector('#search-form'),
@@ -20,9 +18,9 @@ refs.loadMoreBtn.classList.add('is-hidden');
 refs.searchForm.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
-console.log(refs.loadMoreBtn);
+// console.log(refs.loadMoreBtn);
 
-function onSearch(event) {
+async function onSearch(event) {
   event.preventDefault();
 
   newsApiService.query = event.currentTarget.elements.query.value;
@@ -33,17 +31,19 @@ function onSearch(event) {
     return Notify.info('Enter a request!');
   }
 
-  // loadMoreBtn.show();
-  // loadMoreBtn.disable();
   newsApiService.resetPage();
-  newsApiService.fetchImages().then(renderImages);
+  const images = await newsApiService.fetchImages();
+  renderImages(images);
+  withLightbox();
 }
 
-function onLoadMore(event) {
-  newsApiService.fetchImages().then(renderImages);
+async function onLoadMore(event) {
+  const images = await newsApiService.fetchImages();
+  renderImages(images);
+  withLightbox();
 }
 
-function renderImages(hits) {
+function renderImages({ hits, totalHits }) {
   if (hits.length === 0) {
     noRes();
     hideLoadMoreBtn();
@@ -80,4 +80,12 @@ function noRes() {
   );
 }
 
-// export { hideLoadMoreBtn, noRes, showEndofImgs };
+function withLightbox() {
+  let lightbox = new SimpleLightbox('.photo-card .photo-card-link', {
+    /* options */
+    captions: true,
+    captionsData: 'alt',
+    captionPosition: 'bottom',
+    captionDelay: 250,
+  });
+}
