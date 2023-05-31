@@ -13,6 +13,16 @@ const refs = {
   loadMoreBtn: document.querySelector('[data-action="load-more"]'),
 };
 
+// function withLightbox() {
+let lightbox = new SimpleLightbox('.photo-card .photo-card-link', {
+  /* options */
+  captions: true,
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250,
+});
+// }
+
 const newsApiService = new NewsApiService();
 refs.loadMoreBtn.classList.add('is-hidden');
 refs.searchForm.addEventListener('submit', onSearch);
@@ -23,7 +33,7 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore);
 async function onSearch(event) {
   event.preventDefault();
 
-  newsApiService.query = event.currentTarget.elements.query.value;
+  newsApiService.query = event.currentTarget.elements.query.value.trim();
   hideLoadMoreBtn();
   clearImagesContainer();
 
@@ -34,13 +44,13 @@ async function onSearch(event) {
   newsApiService.resetPage();
   const images = await newsApiService.fetchImages();
   renderImages(images);
-  withLightbox();
+  lightbox.refresh();
 }
 
 async function onLoadMore(event) {
   const images = await newsApiService.fetchImages();
   renderImages(images);
-  withLightbox();
+  lightbox.refresh();
 }
 
 function renderImages({ hits, totalHits }) {
@@ -79,14 +89,3 @@ function noRes() {
     'Sorry, there are no images matching your search query. Please try again.'
   );
 }
-
-function withLightbox() {
-  let lightbox = new SimpleLightbox('.photo-card .photo-card-link', {
-    /* options */
-    captions: true,
-    captionsData: 'alt',
-    captionPosition: 'bottom',
-    captionDelay: 250,
-  });
-}
-//done!
